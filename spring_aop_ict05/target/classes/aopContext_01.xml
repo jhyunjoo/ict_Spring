@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
+	<!-- 위빙 : 핵심관리 메서드가 호출될 때 횡당관심 메서드가 삽입되는 과정 -->
+	<!-- 방법1. xml을 이용한 AOP 방법 -->
+	
+	<bean id="Log" class="com.spring.aop_ict05.basic.LogAop"/>	<!-- 횡단관심(공통관심) 클래스를 빈으로 등록-->
+	<aop:config>	<!-- Namespaces에서 aop 추가하고 사용 -->
+		<aop:aspect id="Logger" ref="Log">
+			<aop:pointcut id="allPointCut" expression="execution(* com.spring.aop_ict05.basic.*.*(..))"/>	<!-- 핵심관심 -->
+			<aop:around method="loggerAop" pointcut-ref="allPointCut"/>		<!-- 횡단관심 -->
+			<!-- around: 앞뒤 모두 / after: 뒤만 / before: 앞만 -->
+		</aop:aspect>
+	</aop:config>
+
+	<!-- 핵심관심 클래스의 Member 정보를 DI(Dependency Injecction) -->
+	<bean id="member" class="com.spring.aop_ict05.basic.Member">
+		<property name="id" value="hyunj"/>
+		<property name="pwd" value="1101"/>
+		<property name="name" value="현주"/>
+		<property name="hobby" value="다꾸"/>
+	</bean>
+
+</beans>

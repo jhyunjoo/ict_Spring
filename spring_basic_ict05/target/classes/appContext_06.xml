@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="tv" class="spring.mvc.basic_ict05.ch06.SamsungTV">	<!-- 디폴트 생성자 -->
+		<property name="sony" ref="sony"/>
+		<property name="brand" value="삼성"/>
+		<property name="price" value="1200000"/>
+	</bean>
+	
+	<!-- SonySpeaker sony = new SonySpeaker(); -->
+	<bean id="sony" class="spring.mvc.basic_ict05.ch06.SonySpeaker"/>
+
+</beans>

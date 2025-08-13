@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 방법1. -->
+	<!-- 매개변수 생성자 호출 -->
+	<!-- SamsungTV tv = new SamsungTV(new SonySpeaker(), "삼성", 1200000); -->
+	
+	<!-- 방법2. -->
+	<!-- 디폴트 생성자 호출 -->
+	<!-- <bean id="참조변수" class="패키지명.클래스명"/> -->
+	<!-- <bean id="tv" class="spring.mvc.basic_ict05.ch04.SamsungTV"/> -->	
+	
+	<!-- // DI(Dependency Injection) - 1) 생성자 Injection -->
+	<!-- index 생략시 순서대로 들어감, 생략안하면 정확하게 index의 순서값을 지정해야 함-->
+	<!-- 매개변수 생성자 호출 -->
+	<bean id="tv" class="spring.mvc.basic_ict05.ch04.SamsungTV">
+		<!-- ref : 무언가를 참조할 때 -->
+		<constructor-arg index="0" ref="sony"/>
+		<!-- value : 일반 값 -->
+		<constructor-arg index="1" value="삼성"/>
+		<constructor-arg index="2" value="1200000"/>
+	</bean>
+	
+	<!-- SonySpeaker sony = new SonySpeaker(); -->
+	<bean id="sony" class="spring.mvc.basic_ict05.ch04.SonySpeaker"/>
+
+</beans>
