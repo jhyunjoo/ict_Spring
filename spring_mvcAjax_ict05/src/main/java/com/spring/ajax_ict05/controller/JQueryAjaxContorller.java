@@ -1,6 +1,7 @@
 package com.spring.ajax_ict05.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,15 +15,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.ajax_ict05.HomeController;
+import com.spring.ajax_ict05.dto.ProductDTO;
 import com.spring.ajax_ict05.service.SearchServiceImpl;
 
 @Controller
 public class JQueryAjaxContorller {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(JQueryAjaxContorller.class);
 
 	@Autowired
 	private SearchServiceImpl service;
@@ -135,4 +138,58 @@ public class JQueryAjaxContorller {
 		
 		return "search/search_next";
 	}
+	
+	// ---------------------------------------------------------------------
+	
+	@RequestMapping("/product.jq")
+	public @ResponseBody ProductDTO product(HttpServletRequest request, HttpServletResponse response, Model model) 
+			throws ServletException, IOException {
+		logger.info("<<< url => /product.jq >>>");
+		
+		// @ResponseBody 생략시 에러 => 파일 [/WEB-INF/views/product.jsp]을(를) 찾을 수 없습니다.
+		// @ResponseBody 추가시 출력결과는 json 타입 => {"product_id":"P_001","product_name":"LG GrAM","product_price":2000000}
+		ProductDTO dto = new ProductDTO("P_001", "LG GrAM", 2000000);	// 매개변수 생성자 호출
+		
+		return dto;		
+	}
+	
+	@RequestMapping("/basic6.jq")
+	public String basic6(HttpServletRequest request, HttpServletResponse response, Model model) 
+			throws ServletException, IOException {
+		logger.info("<<< url => /basic6.jq >>>");
+		
+		return "jquery/basic6";		// 1.
+	}
+	
+	@RequestMapping("/basic6_next.jq")
+	public @ResponseBody String basic6_next(@RequestBody Map<String, Object> map) 
+			throws ServletException, IOException {
+		logger.info("<<< url => /basic6_next.jq >>>");
+		
+		String id = map.get("id").toString();	// Object -> String
+		String pwd = map.get("pwd").toString();
+		String name = map.get("name").toString();
+		
+		
+		return id + "," + pwd + "," + name;		// 6.
+	}
+	
+	@RequestMapping("/basic7.jq")
+	public String basic7(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		logger.info("<<< basic7.jq >>>");
+
+		return "jquery/basic7"; // 1.
+	}
+
+	@RequestMapping("/basic7_next.jq")
+	public @ResponseBody String basic7_next(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		logger.info("<<< basic7_next.jq >>>");
+
+		String mode = request.getParameter("mode");
+		mode += " hyunjoo";
+		return mode; // 6.
+	}
+
 }
